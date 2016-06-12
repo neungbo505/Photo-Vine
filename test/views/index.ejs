@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+   <head>
+
+      <title> Welcome to Photovine </title>
+
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="imagetoolbar" content="no" /> 
+
+      <style type="text/css">
+        html, body {margin:0; padding:0; width:100%; height:100%; overflow:hidden;}
+        body {font-family:verdana, arial, sans-serif; font-size:76%;}
+        #background{position:absolute; z-index:1; width:100%; height:100%;}
+        #scroller {position:absolute; width:100%; height:100%; top:0; left:0; overflow:auto; z-index:2;} 
+        #content {padding:5px 200px 20px 200px;}p {line-height:1.8em; letter-spacing:0.1em; text-align:justify;}
+        #fixed {position:absolute; top:25px; left:10px; width:150px; z-index:10; color:#567; border:1px solid #000; padding:10px;}
+
+        .borderBox { vertical-align: middle; margin-top: 100px;}
+        .borderBox img { display:block; }
+      </style> 
+
+   </head>
+   
+   <body>
+    <div>
+      <img id="background" src="/images/bg_index.png" alt="" title="Sunrise" /> 
+    </div>
+
+    <script>
+       window.fbAsyncInit = function() {  
+        FB.init({appId: '1569052246728272', status: true, cookie: true,xfbml: true});      
+       }; 
+
+       (function(d){  
+        var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];  
+        if (d.getElementById(id)) {return;}  
+        js = d.createElement('script'); js.id = id; js.async = true;  
+        js.src = "//connect.facebook.net/en_US/all.js";  
+        ref.parentNode.insertBefore(js, ref);  
+       }(document));  
+
+       function facebooklogin() {  
+        FB.login(function(response) {
+          if (response.status === 'connected') {
+         getMyProfile();
+          } else if (response.status === 'not_authorized') {
+            // 페이스북에는 로그인 되어있으나, 앱에는 로그인 되어있지 않다.
+          } else {
+            // 페이스북에 로그인이 되어있지 않아서, 앱에 로그인 되어있는지 불명확하다.
+          }
+        } , {scope: "user_about_me,email,user_birthday"} ); //나는 유저의 아이디(이메일)과 생일 정보를 얻어오고 싶다.
+       }  
+
+       function getMyProfile(){
+        FB.api('/me',function(user){
+        
+        var myName= user.name ;
+        var myEmail = user.email;
+        var myId = user.id;
+        
+        if(myEmail != ""){
+          //정보를 post로 보내고 submit처리
+        }
+        
+         });
+        FB.api('/me/picture?type=large',function(data){
+        var myImg = data.data.url;
+        });
+       }
+    </script>
+
+    <div id="scroller">
+      <div id="content"> 
+
+        <div id="header" >
+          <img src="/images/logo-transparent.png" style="width: 236px; align: center; padding-top: 7px; padding-bottom: 13px" >
+        </div>
+
+        <center>
+
+          <div id="photos" style="margin-top:100px; display:block" >
+            <img src="/images/ex_1.png" style="width: 240px;" >
+            <img src="/images/ex_2.png" style="width: 240px;" >
+            <img src="/images/ex_3.png" style="width: 240px;" >
+            <img src="/images/ex_4.png" style="width: 240px;" >
+          </div>
+
+          <div id="login" style="margin-top: 100px" class="borderBox">
+          	<a href="/simple" target="_blank">
+            <img src="/images/facebook-login.png" 
+              onmouseover="this.src='./images/facebook-login-high.png'"
+              onmouseout="this.src='./images/facebook-login.png'"
+              onClick="facebooklogin();"
+              style="margin: 10px">
+
+            <img src="/images/guest-login.png" 
+              onmouseover="this.src='./images/guest-login-high.png'"
+              onmouseout="this.src='./images/guest-login.png'"
+              style="margin: 10px"
+              >
+          </div>
+
+        </center>
+
+      </div>
+    </div>
+    
+</html> 
